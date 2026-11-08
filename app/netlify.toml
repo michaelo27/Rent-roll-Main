@@ -1,5 +1,7 @@
 [build]
-command = "export DATABASE_URL=\"${NETLIFY_DATABASE_URL:-$DATABASE_URL}\" && NITRO_PRESET=netlify pnpm build && if [ \"${CONTEXT:-}\" = \"production\" ]; then pnpm migrate:production; fi"
+# Keep schema readiness as a publish gate. GNU timeout on Netlify's Linux
+# image bounds the entire migration process group, including the Drizzle CLI.
+command = "export DATABASE_URL=\"${NETLIFY_DATABASE_URL:-$DATABASE_URL}\" && NITRO_PRESET=netlify pnpm build && if [ \"${CONTEXT:-}\" = \"production\" ]; then timeout --kill-after=10s 5m pnpm migrate:production; fi"
 publish = "dist"
 functions = ".netlify/functions-internal"
 

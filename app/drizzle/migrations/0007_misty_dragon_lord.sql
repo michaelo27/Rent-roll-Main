@@ -1,0 +1,1 @@
+ALTER TABLE "rent_units" ADD COLUMN "notes" text DEFAULT '' NOT NULL;

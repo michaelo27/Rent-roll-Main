@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX "rent_units_property_label_idx" ON "rent_units" USING btree ("property","unit_label");

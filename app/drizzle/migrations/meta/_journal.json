@@ -1,0 +1,76 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1793800515062,
+      "tag": "0000_confused_carmella_unuscione",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1793808553404,
+      "tag": "0001_early_joseph",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1793808623601,
+      "tag": "0002_bumpy_mandrill",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1793808777559,
+      "tag": "0003_empty_whirlwind",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1793809448271,
+      "tag": "0004_ancient_penance",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1793809984649,
+      "tag": "0005_fantastic_quicksilver",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1793810690440,
+      "tag": "0006_amusing_bill_hollister",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1793863681057,
+      "tag": "0007_misty_dragon_lord",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1793863769514,
+      "tag": "0008_grey_snowbird",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1793865000000,
+      "tag": "0009_remove_demo_data",
+      "breakpoints": true
+    }
+  ]
+}

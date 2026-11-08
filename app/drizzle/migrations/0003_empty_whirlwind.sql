@@ -1,0 +1,1 @@
+ALTER TABLE "payment_allocations" ADD COLUMN "undone" boolean DEFAULT false NOT NULL;

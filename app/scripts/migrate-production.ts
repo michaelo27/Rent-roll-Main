@@ -12,8 +12,11 @@ loadEnv();
 
 async function main(): Promise<void> {
   await withMigrationRuntime(async () => {
+    console.log("[release] Starting framework migrations");
     await runFrameworkReleaseMigrations(null);
+    console.log("[release] Starting app release migrations");
     await runAppReleaseMigrations();
+    console.log("[release] Release migrations complete");
   });
 }
 
@@ -46,8 +49,38 @@ if (!isProcessEntrypoint()) {
   );
 }
 
+// This is a standalone release process. Framework imports may retain timers
+// or sockets even after all SQL has completed. Do not let those handles hold
+// the build open, and never report a timed-out migration as successful.
+let phase = "release migrations";
+const deadline = setTimeout(() => {
+  console.error(`[release] Timed out during ${phase}; deployment blocked`);
+  process.exit(1);
+}, 180_000);
+
+let exitCode = 0;
 try {
   await main();
+} catch {
+  // Driver errors can contain connection strings or SQL with private data.
+  console.error("[release] Release migrations failed; deployment blocked");
+  exitCode = 1;
 } finally {
-  await closeDbExec();
+  phase = "database cleanup";
+  console.log("[release] Closing database connections");
+  const cleanupDeadline = setTimeout(() => {
+    console.error("[release] Database cleanup exceeded 10 seconds; deployment blocked");
+    process.exit(1);
+  }, 10_000);
+  try {
+    await closeDbExec();
+  } catch {
+    console.error("[release] Database cleanup failed; deployment blocked");
+    exitCode = 1;
+  } finally {
+    clearTimeout(cleanupDeadline);
+    clearTimeout(deadline);
+  }
 }
+console.log(`[release] Migration process finished with status ${exitCode}`);
+process.exit(exitCode);

@@ -15,6 +15,17 @@ DATABASE_URL=pglite:./data/demo AUTH_DISABLED=true HOST=0.0.0.0 PORT=8080 pnpm d
 
 The scaffold's `AUTH_DISABLED` local single-user mode is only for development and demos. The demo database starts empty; use synthetic data only. Never expose this mode as a production service or enter real tenant information. `.env` files and `data/` are ignored by Git. Database migrations remove the original sample rows without deleting owner-created records.
 
+## Production migrations
+
+Production deploys run framework release migrations followed by the app's
+Drizzle migrations before publishing. The release runner logs each phase,
+allows three minutes for release migrations and ten seconds for connection
+cleanup, and exits explicitly after cleanup so retained framework handles
+cannot keep the process alive. Netlify bounds the entire migration command,
+including Drizzle, to five minutes (with a ten-second forced-stop grace period).
+Failures and timeouts block publication. The same runner is available with
+`pnpm migrate:production` in a separately configured release environment.
+
 ## Email and privacy
 
 Rent Roll does not need an email connection. A tenant email address is optional and only supplies a prefilled `mailto:` link in the landlord's own mail app. No link is shown when no address is supplied. Reminders can be copied for SMS, chat, printing, or another channel. The assistant's scaffold email tool is disabled. CSV exports are generated in the browser and saved locally by the browser.
